@@ -133,9 +133,14 @@ size_t BaseSocketMessenger<stream_protocol>::available_bytes() {
 
 template <typename stream_protocol>
 unsigned short BaseSocketMessenger<stream_protocol>::local_port() const {</stream_protocol>
+  return 0;
+}
 
-template <typename stream_protocol=""> void BaseSocketMessenger<stream_protocol>::set_no_delay() { - const auto fd = socket->native(); + const auto fd = socket->native_handle(); int flag = 1; const auto ret = ::setsockopt(fd, IPPROTO_TCP, TCP_NODELAY,</stream_protocol></typename>
-                   reinterpret_cast<const char*>(&flag), sizeof(flag));
+template <typename stream_protocol=""> void BaseSocketMessenger<stream_protocol>::set_no_delay() {
+  const auto fd = socket->native_handle();
+  int flag = 1;
+  const auto ret = ::setsockopt(fd, IPPROTO_TCP, TCP_NODELAY,</stream_protocol></typename>
+    reinterpret_cast<const char*>(&flag), sizeof(flag));
   if (ret < 0) WARNING("Failed to disable TCP delay for socket");
 }
 
